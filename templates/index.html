@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis Dashboard</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <button type="submit">Upload File</button>
+    </form>
+    <h1>Data Analysis Dashboard</h1>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+        <!-- Display Descriptive Statistics -->
+        <div>
+            <h2>Descriptive Statistics</h2>
+            {{ descriptive_stats | safe }}
+        </div>
+
+        <!-- Display Data Summary -->
+        <div>
+            <h2>Data Summary</h2>
+            <p>{{ data_summary }}</p>
+        </div>
+
+        <!-- Display Potential Information -->
+        <div>
+            <h2>Insights of Dataset</h2>
+            <ul>
+                {% for insight in potential_info %}
+                    <li>{{ insight }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        <!-- Display Data Visualization -->
+        <div>
+            <h2>Data Visualization</h2>
+            <img src="{{ url_for('static', filename='pairplot.png') }}" alt="Pairplot of Numerical Variables">
+        </div>
+
+    {% endif %}
+
+
+</body>
+</html>
