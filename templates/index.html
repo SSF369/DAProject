@@ -4,50 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Analysis Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover,
+        .custom-file-upload:hover {
+            background-color: #218838;
+        }
+
+        .error {
+            color: #dc3545;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .result h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .insights ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .insights li {
+            margin-bottom: 5px;
+        }
+
+        .visualization img {
+            display: block;
+            max-width: 100%;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload File</button>
-    </form>
-    <h1>Data Analysis Dashboard</h1>
+    <div class="container">
+        <h1>Data Analysis Dashboard</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file" class="custom-file-upload">Choose File</label>
+            <input type="file" id="file" name="file">
+            <button type="submit">Upload File</button>
+        </form>
 
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
 
-    {% if result %}
-        <!-- Display Descriptive Statistics -->
-        <div>
-            <h2>Descriptive Statistics</h2>
-            {{ descriptive_stats | safe }}
-        </div>
+        {% if result %}
+            <div class="result">
+                <h2>Descriptive Statistics</h2>
+                {{ descriptive_stats | safe }}
 
-        <!-- Display Data Summary -->
-        <div>
-            <h2>Data Summary</h2>
-            <p>{{ data_summary }}</p>
-        </div>
+                <h2>Data Summary</h2>
+                <p>{{ data_summary }}</p>
 
-        <!-- Display Potential Information -->
-        <div>
-            <h2>Insights of Dataset</h2>
-            <ul>
-                {% for insight in potential_info %}
-                    <li>{{ insight }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+                <h2>Insights of Dataset</h2>
+                <ul class="insights">
+                    {% for insight in potential_info %}
+                        <li>{{ insight }}</li>
+                    {% endfor %}
+                </ul>
 
-
-        <!-- Display Data Visualization -->
-        <div>
-            <h2>Data Visualization</h2>
-            <img src="{{ url_for('static', filename='pairplot.png') }}" alt="Pairplot of Numerical Variables">
-        </div>
-
-    {% endif %}
-
-
+                <h2>Data Visualization</h2>
+                <div class="visualization">
+                    <img src="{{ url_for('static', filename='pairplot.png') }}" alt="Pairplot of Numerical Variables">
+                </div>
+            </div>
+        {% endif %}
+    </div>
 </body>
 </html>
